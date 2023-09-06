@@ -30,11 +30,11 @@ namespace Lesson1_02._09._2023
                 {
                     Console.Write("Введите первую переменную: ");
                     string var1_str = Console.ReadLine();
-                    var1_str = var1_str.Replace(",", ".");
+                    var1_str = var1_str.Replace(".", ",");
                     double var1_int = double.Parse(var1_str);
                     Console.Write("Введите вторую переменную: ");
                     string var2_str = Console.ReadLine();
-                    var2_str = var2_str.Replace(",", ".");
+                    var2_str = var2_str.Replace(".", ",");
                     double var2_int = double.Parse(var2_str);
                     Console.WriteLine("Меняю значения переменных местами.. ");
                     (var1_int, var2_int) = (var2_int, var1_int);
