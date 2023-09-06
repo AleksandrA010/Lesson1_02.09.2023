@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Lesson1_02._09._2023
 {
@@ -6,7 +7,13 @@ namespace Lesson1_02._09._2023
     {
         static void Main()
         {
+            Console.WriteLine("Добро пожаловать в H/W 1.");
+            Console.WriteLine("Для корректной работы программы, кроме Задания 2 требуется вводить целые числа.");
+            Console.Write("Для продолжения нажмите любую клавишу: ");
+            Console.ReadKey();
+            Console.WriteLine("");
             //Задание 1
+            Console.WriteLine("");
             Console.WriteLine("Задание 1.");
             Console.WriteLine("Выведите на экран 'Мир' 'Труд' и 'Май' в двух вариантах.");
             Console.WriteLine("");
@@ -23,6 +30,7 @@ namespace Lesson1_02._09._2023
             Console.WriteLine("Ввести две числовые переменные, в случае неправильного ввода данных обработать исключение.");
             Console.WriteLine("");
             bool flag = true;
+            CultureInfo CI = new CultureInfo("en-US", false);
             //Тут можно использовать TryParse();
             do
             {
@@ -30,12 +38,12 @@ namespace Lesson1_02._09._2023
                 {
                     Console.Write("Введите первую переменную: ");
                     string var1_str = Console.ReadLine();
-                    var1_str = var1_str.Replace(".", ",");
-                    double var1_int = double.Parse(var1_str);
+                    var1_str = var1_str.Replace(",", ".");
+                    Decimal var1_int = Convert.ToDecimal(var1_str, CI);
                     Console.Write("Введите вторую переменную: ");
                     string var2_str = Console.ReadLine();
-                    var2_str = var2_str.Replace(".", ",");
-                    double var2_int = double.Parse(var2_str);
+                    var2_str = var2_str.Replace(",", ".");
+                    Decimal var2_int = Convert.ToDecimal(var2_str, CI);
                     Console.WriteLine("Меняю значения переменных местами.. ");
                     (var1_int, var2_int) = (var2_int, var1_int);
                     Console.WriteLine("Первая переменная: {0} Вторая переменная: {1}", var1_int, var2_int);
@@ -107,7 +115,7 @@ namespace Lesson1_02._09._2023
             Console.Write("Введите значение x: ");
             double x = Convert.ToDouble(Console.ReadLine());
             double y = Math.Cos(x);
-            Console.WriteLine("При y = cos({0}), y = {1}",x ,y);
+            Console.WriteLine("При y = cos({0}), y = {1}", x, y);
             //Задание 5
             Console.WriteLine("");
             Console.WriteLine("Задание 5.");
@@ -132,7 +140,7 @@ namespace Lesson1_02._09._2023
                     Console.WriteLine("Ответ: 'Корней нет'.");
                 }
                 else if (D == 0)
-                { 
+                {
                     double root = (-B) / 2 * A;
                     Console.WriteLine("Ответ: {0}", root);
                 }
@@ -202,7 +210,7 @@ namespace Lesson1_02._09._2023
             Console.WriteLine("");
             Console.WriteLine("Итоговая стоимость вашей покупки: {0} руб", Result);
             Console.WriteLine("");
-            Console.Write("Для завершения нажмите любую кнопку: ");
+            Console.Write("Для завершения нажмите любую клавишу: ");
             Console.ReadKey();
         }
     }
