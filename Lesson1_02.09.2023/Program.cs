@@ -1,132 +1,95 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading;
 
 namespace Lesson1_02._09._2023
 {
     internal class Program
     {
+        static string Analysis(string str, string condition)
+        {
+            var english = CultureInfo.GetCultureInfo("en-GB");
+            Thread.CurrentThread.CurrentCulture = english;
+            bool flag = true;
+            string result;
+            do
+            {
+                result = str.Replace(",", ".");
+                try
+                {
+                    double result_D = Convert.ToDouble(result);
+                    flag = false;
+                }
+                catch
+                {
+                    Console.WriteLine("Вы не верно ввели данные, в записи числа не должны присутствовать буквы и не относящие к числу символы.");
+                    empty();
+                    Console.Write(condition);
+                    str = Console.ReadLine();
+                }
+            }
+            while (flag);
+            return result;
+        }
+        static void Blank(string description, int number, int size_center)
+        {
+            string[] text = description.Split(new char[] { '*' });
+            Console.WriteLine("");
+            Console.WriteLine("Задание {0}", number);
+            for (int i = 0; i < size_center; i++)
+            {
+                Console.WriteLine(text[i]);
+            }
+            Console.WriteLine("");
+        }
+        static void empty()
+        {
+            Console.WriteLine("");
+        }
         static void Main()
         {
-            Console.WriteLine("Добро пожаловать в H/W 1.");
-            Console.WriteLine("Для корректной работы программы, кроме Задания 2 требуется вводить целые числа.");
-            Console.Write("Для продолжения нажмите любую клавишу: ");
-            Console.ReadKey();
-            Console.WriteLine("");
+            var english = CultureInfo.GetCultureInfo("en-GB");
+            Thread.CurrentThread.CurrentCulture = english;
             //Задание 1
-            Console.WriteLine("");
-            Console.WriteLine("Задание 1.");
-            Console.WriteLine("Выведите на экран 'Мир' 'Труд' и 'Май' в двух вариантах.");
-            Console.WriteLine("");
+            Blank("Выведите на экран 'Мир' 'Труд' и 'Май' в двух вариантах.", 1, 1);
             //a)
             Console.WriteLine("Мир Труд Май");
-            Console.WriteLine("");
+            empty();
             //б)
             Console.WriteLine("Мир");
             Console.WriteLine("{0, 6}", "Труд");
             Console.WriteLine("{0, 9}", "Май");
             //Задание 2
-            Console.WriteLine("");
-            Console.WriteLine("Задание 2.");
-            Console.WriteLine("Ввести две числовые переменные, в случае неправильного ввода данных обработать исключение.");
-            Console.WriteLine("");
-            bool flag = true;
-            CultureInfo CI = new CultureInfo("en-US", false);
-            //Тут можно использовать TryParse();
-            do
-            {
-                try
-                {
-                    Console.Write("Введите первую переменную: ");
-                    string var1_str = Console.ReadLine();
-                    var1_str = var1_str.Replace(",", ".");
-                    Decimal var1_int = Convert.ToDecimal(var1_str, CI);
-                    Console.Write("Введите вторую переменную: ");
-                    string var2_str = Console.ReadLine();
-                    var2_str = var2_str.Replace(",", ".");
-                    Decimal var2_int = Convert.ToDecimal(var2_str, CI);
-                    Console.WriteLine("Меняю значения переменных местами.. ");
-                    (var1_int, var2_int) = (var2_int, var1_int);
-                    Console.WriteLine("Первая переменная: {0} Вторая переменная: {1}", var1_int, var2_int);
-                    flag = false;
-
-                }
-                catch
-                {
-                    Console.Write("Вы неправильно ввели данные, хотите попробовать ещё раз? Yes/No: ");
-                    string answer1 = Console.ReadLine();
-                    bool flag2 = true;
-                    do
-                    {
-                        if (answer1 == "No" | answer1 == "no")
-                        {
-                            flag = false;
-                            flag2 = false;
-                        }
-                        else if (answer1 == "Yes" | answer1 == "yes")
-                        {
-                            flag2 = false;
-                        }
-                        else
-                        {
-                            Console.Write("Yes/No: ");
-                            answer1 = Console.ReadLine();
-                        }
-                    }
-                    while (flag2);
-                }
-            }
-            while (flag);
+            Blank("Ввести две числовые переменные и поменять их местами. (Пользователь может неправильно ввести данные).", 2, 1);
+            Console.Write("Введите первую переменную: ");
+            double var1 = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите первую переменную: "));
+            Console.Write("Введите вторую переменную: ");
+            double var2 = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите вторую переменную: "));
+            empty();
+            Console.WriteLine("Меняю переменные местами.");
+            (var1, var2) = (var2, var1);
+            Console.WriteLine("Первая переменная: {0}, Вторая переменная: {1}.", var1, var2);
             //Задание 3
-            Console.WriteLine("");
-            Console.WriteLine("Задание 3.");
-            Console.WriteLine("Дан радиус, найти площать и длинну круга.");
-            Console.WriteLine("");
+            Blank("Дан радиус, найти площать и длинну круга.", 3, 1);
             Console.Write("Введите радиус круга: ");
-            double radius = Convert.ToDouble(Console.ReadLine());
+            double radius = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите радиус круга: "));
             double area = Math.PI * Math.Pow(radius, 2);
             double length = 2 * Math.PI * radius;
             Console.WriteLine("Длинна окружности: {0} Площадь круга: {1}", length, area);
-            Console.Write("Вы хотите округлить значения? Yes/No: ");
-            string answer2 = Console.ReadLine();
-            bool flag3 = true;
-            do
-            {
-                if (answer2 == "Yes" | answer2 == "yes")
-                {
-                    Console.WriteLine("Длинна окружности: {0} Площадь круга: {1}", Math.Round(length), Math.Round(area));
-                    flag3 = false;
-                }
-                else if (answer2 == "No" | answer2 == "no")
-                {
-                    flag3 = false;
-                }
-                else
-                {
-                    Console.Write("Yes/No: ");
-                    answer2 = Console.ReadLine();
-                }
-            }
-            while (flag3);
             //Задание 4
-            Console.WriteLine("");
-            Console.WriteLine("Задание 4.");
-            Console.WriteLine("Найдите значение y = cos(x).");
-            Console.WriteLine("");
-            Console.Write("Введите значение x: ");
-            double x = Convert.ToDouble(Console.ReadLine());
+            Blank("Найдите значение y = cos(x).", 4, 1);
+            Console.Write("Введите значение x(радианы): ");
+            double x = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите значение x(радианы): "));
             double y = Math.Cos(x);
             Console.WriteLine("При y = cos({0}), y = {1}", x, y);
             //Задание 5
-            Console.WriteLine("");
-            Console.WriteLine("Задание 5.");
-            Console.WriteLine("Найдите корни уравнения: Ax^2 + Bx + C = 0.");
-            Console.WriteLine("");
+            Blank("Найдите корни уравнения: Ax^2 + Bx + C = 0.", 5, 1);
             Console.Write("Введите коэффициент A: ");
-            double A = Convert.ToDouble(Console.ReadLine());
+            double A = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите коэффициент A: "));
             Console.Write("Введите коэффициент B: ");
-            double B = Convert.ToDouble(Console.ReadLine());
+            double B = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите коэффициент B: "));
             Console.Write("Введите коэффициент C: ");
-            double C = Convert.ToDouble(Console.ReadLine());
+            double C = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите коэффициент C: "));
             if (A == 0)
             {
                 double root = (-C) / B;
@@ -152,64 +115,72 @@ namespace Lesson1_02._09._2023
                 }
             }
             //Задание 6
-            Console.WriteLine("");
-            Console.WriteLine("Задание 6.");
-            Console.WriteLine("a) b присвоить значение c, а присвоить значение b, с присвоить значение а.");
-            Console.WriteLine("b) b присвоить значение а, с присвоить значение b, а присвоить значение с.");
-            Console.WriteLine("");
+            Blank("a) b присвоить значение c, а присвоить значение b, с присвоить значение а.*" +
+                "b) b присвоить значение а, с присвоить значение b, а присвоить значение с.", 6, 2);
             Console.Write("Введите а: ");
-            Double a = Convert.ToDouble(Console.ReadLine());
+            double a = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите а: "));
             Console.Write("Введите b: ");
-            Double b = Convert.ToDouble(Console.ReadLine());
+            double b = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите b: "));
             Console.Write("Введите c: ");
-            Double c = Convert.ToDouble(Console.ReadLine());
+            double c = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите c: "));
             Console.WriteLine("Меняю значения переменных местами..");
+            //a)
             (a, b, c) = (b, c, a);
             Console.WriteLine("a) a = {0}, b = {1}, c = {2}", a, b, c);
+            //б)
             (b, c, a) = (a, b, c);
             (a, b, c) = (c, a, b);
             Console.WriteLine("б) a = {0}, b = {1}, c = {2}", a, b, c);
             //Задание 7
-            Console.WriteLine("");
-            Console.WriteLine("Задание 7.");
-            Console.WriteLine("Выведите столбиком 4 случайных числа.");
-            Console.WriteLine("");
+            Blank("Выведите столбиком 4 случайных числа.", 7, 1);
             var random = new Random();
             for (int i = 0; i < 4; i++)
             {
                 Console.WriteLine(random.Next());
             }
             //Задание 8
-            Console.WriteLine("");
-            Console.WriteLine("Задание 8.");
-            Console.WriteLine("Переставить конечный символ в начало.");
-            Console.WriteLine("");
-            Console.Write("Введите трёхзначное число: ");
-            string text = Console.ReadLine();
+            Blank("Поставить последний символ в начало.", 8, 1);
+            bool flag = true;
+            string text;
+            do
+            {
+                Console.Write("Введите трёхзначное число: ");
+                double text_Check = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите трёхзначное число: "));
+                text = Convert.ToString(Math.Abs(text_Check));
+                if (text.Length != 3)
+                {
+                    Console.WriteLine("Данное число не является трёхзначным.");
+                    empty();
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+            while (flag);
             string insert = text.Substring(2);
             text = text.Substring(0, text.Length - 1);
             text = insert + text;
             Console.WriteLine(text);
             //Задание 9
-            Console.WriteLine("");
-            Console.WriteLine("Задание 9.");
-            Console.WriteLine("Посчитать стоимость продуктов.");
-            Console.WriteLine("");
-            int cost_sweets = 10;
-            int cost_cookies = 25;
-            int cost_apples = 12;
-            Console.WriteLine("Стоимость 1 кг конфет: {0} руб, 1 кг печенья: {1} руб, 1 кг яблок: {2} руб,", cost_sweets, cost_cookies, cost_apples);
-            Console.WriteLine("");
-            Console.Write("Сколько кг конфет: ");
-            int col_sweets = int.Parse(Console.ReadLine());
-            Console.Write("Сколько кг печенья: ");
-            int col_cookies = int.Parse(Console.ReadLine());
-            Console.Write("Сколько кг яблок: ");
-            int col_apples = int.Parse(Console.ReadLine());
-            int Result = cost_apples * col_apples + cost_cookies * col_cookies + cost_sweets * col_sweets;
-            Console.WriteLine("");
+            Blank("Посчитать стоимость продуктов.", 9, 1);
+            Console.Write("Введите стоимость 1 кг конфет: ");
+            double cost_sweets = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите стоимость 1 кг конфет: "));
+            Console.Write("Введите стоимость 1 кг печенья: ");
+            double cost_cookies = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите стоимость 1 кг печенья: "));
+            Console.Write("Введите стоимость 1 кг яблок: ");
+            double cost_apples = Convert.ToDouble(Analysis(Console.ReadLine(), "Введите стоимость 1 кг яблок: "));
+            empty();
+            Console.Write("Введите количество кг конфет: ");
+            double col_sweets = double.Parse(Analysis(Console.ReadLine(), "Введите количество кг конфет: "));
+            Console.Write("Введите количество кг печенья: ");
+            double col_cookies = double.Parse(Analysis(Console.ReadLine(), "Введите количество кг печенья: "));
+            Console.Write("Введите количество кг яблок: ");
+            double col_apples = double.Parse(Analysis(Console.ReadLine(), "Введите количество кг конфет: "));
+            double Result = cost_apples * col_apples + cost_cookies * col_cookies + cost_sweets * col_sweets;
+            empty();
             Console.WriteLine("Итоговая стоимость вашей покупки: {0} руб", Result);
-            Console.WriteLine("");
+            empty();
             Console.Write("Для завершения нажмите любую клавишу: ");
             Console.ReadKey();
         }
